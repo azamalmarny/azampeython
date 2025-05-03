@@ -14,6 +14,9 @@ from typing import Dict, Any
 app = FastAPI(title="StethoAI API",
              description="API for medical sound analysis and diagnosis",
              version="1.0.0")
+@app.get("/")
+async def root():
+    return {"message": "مرحبا! API تعمل الآن بنجاح"}
 
 # Enable CORS
 app.add_middleware(
