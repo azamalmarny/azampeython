@@ -89,6 +89,10 @@ def predict_sound(audio_data: np.ndarray) -> Dict[str, Any]:
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error in prediction: {str(e)}")
 
+@app.get("/")
+async def root():
+    return {"message": "Welcome to StethoAI API. The API is running!"}
+
 @app.post("/analyze-sound", 
          response_model=Dict[str, Any],
          summary="Analyze medical sound",
@@ -107,7 +111,7 @@ async def analyze_sound(file: UploadFile = File(...)) -> Dict[str, Any]:
         filename_lower = file.filename.lower()
         if not filename_lower.endswith(allowed_ext):
             raise HTTPException(status_code=400, detail="Invalid file type. Please upload an audio file (wav, mp3, ogg, m4a)")
-        
+
         # حاول قراءة الملف حتى لو كان content_type غير صحيح إذا كان الامتداد صحيح
         try:
             audio_bytes = await file.read()
